@@ -3,7 +3,7 @@
 const string = "Hi My name is Andrei";
 
 // Let's try a brute force method
-// Space complexity O(1)
+// Space complexity O(n) because our string input is n
 // Time complexity O(n)
 function reverse(str) {
 	// First check the input
