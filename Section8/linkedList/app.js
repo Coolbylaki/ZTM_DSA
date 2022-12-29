@@ -2,14 +2,16 @@ class Node {
 	constructor(value) {
 		this.value = value;
 		this.next = null;
+		this.prev = null;
 	}
 }
 
-class LinkedList {
+class DoublyLinkedList {
 	constructor(value) {
 		this.head = {
 			value: value,
 			next: null,
+			prev: null,
 		};
 		this.tail = this.head;
 		this.length = 1;
@@ -17,6 +19,7 @@ class LinkedList {
 
 	append(value) {
 		const newNode = new Node(value);
+		newNode.prev = this.tail;
 		this.tail.next = newNode;
 		this.tail = newNode;
 		this.length++;
@@ -26,6 +29,7 @@ class LinkedList {
 	prepend(value) {
 		const newNode = new Node(value);
 		newNode.next = this.head;
+		this.head.prev = newNode;
 		this.head = newNode;
 		this.length++;
 		return this.printList();
@@ -65,9 +69,11 @@ class LinkedList {
 		}
 		const newNode = new Node(value);
 		const leaderNode = this.traverseToIndex(index - 1);
-		const holdingPointer = leaderNode.next;
+		const followerNode = leaderNode.next;
 		leaderNode.next = newNode;
-		newNode.next = holdingPointer;
+		newNode.prev = leaderNode;
+		newNode.next = followerNode;
+		followerNode.prev = newNode;
 		this.length++;
 		return this.printList();
 	}
@@ -78,17 +84,20 @@ class LinkedList {
 		}
 		if (index === 0) {
 			this.length--;
+			this.head.next.prev = null;
 			return (this.head = this.head.next);
 		}
 		const leaderNode = this.traverseToIndex(index - 1);
 		const unwantedNode = leaderNode.next;
-		leaderNode.next = unwantedNode.next;
+		const follower = unwantedNode.next;
+		leaderNode.next = follower;
+		follower.prev = leaderNode;
 		this.length--;
 		return this.printList();
 	}
 }
 
-const linkedList = new LinkedList(10);
+const linkedList = new DoublyLinkedList(10);
 
 // Adding to end O(1)
 linkedList.append(5);
@@ -96,12 +105,13 @@ linkedList.append(16);
 
 // Adding to start is O(1)
 linkedList.prepend(1);
-linkedList.prepend(7);
 
 // Inserting at index is O(n)
 linkedList.insert(2, 99);
 linkedList.insert(20, 88);
 
 // Removing at index is O(n)
-linkedList.remove(2);
+// linkedList.remove(2);
 linkedList.remove(0);
+
+console.log(linkedList);
