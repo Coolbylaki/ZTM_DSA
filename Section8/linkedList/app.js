@@ -111,7 +111,5 @@ linkedList.insert(2, 99);
 linkedList.insert(20, 88);
 
 // Removing at index is O(n)
-// linkedList.remove(2);
+linkedList.remove(2);
 linkedList.remove(0);
-
-console.log(linkedList);
