@@ -176,6 +176,60 @@ class BinarySearchTree {
 		}
 		return this.recursiveBreathFirstSearch(queue, list);
 	}
+
+	BFSInOrder() {
+		return traverseInOrder(this.root, []);
+	}
+
+	BFSPostOrder() {
+		return traversePostOrder(this.root, []);
+	}
+
+	BFSPreOrder() {
+		return traversePreOrder(this.root, []);
+	}
+}
+
+function traverseInOrder(node, list) {
+	if (node.left) {
+		traverseInOrder(node.left, list);
+	}
+
+	list.push(node.value);
+
+	if (node.right) {
+		traverseInOrder(node.right, list);
+	}
+
+	return list;
+}
+
+function traversePreOrder(node, list) {
+	list.push(node.value);
+
+	if (node.left) {
+		traversePreOrder(node.left, list);
+	}
+
+	if (node.right) {
+		traversePreOrder(node.right, list);
+	}
+
+	return list;
+}
+
+function traversePostOrder(node, list) {
+	if (node.left) {
+		traversePostOrder(node.left, list);
+	}
+
+	if (node.right) {
+		traversePostOrder(node.right, list);
+	}
+
+	list.push(node.value);
+
+	return list;
 }
 
 const tree = new BinarySearchTree();
@@ -186,6 +240,3 @@ tree.insert(20);
 tree.insert(170);
 tree.insert(15);
 tree.insert(1);
-
-console.log(tree.breadthFirstSearch());
-console.log(tree.recursiveBreathFirstSearch([tree.root], []));
